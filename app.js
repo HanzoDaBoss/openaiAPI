@@ -9,10 +9,19 @@ const pdf_path = "./article.pdf";
 const app = express();
 
 let corsOptions = {
-  origin: ["http://127.0.0.1:5173"],
-  allowedHeaders: "Content-Type,Authorization",
+  origin: "http://127.0.0.1:5173",
 };
 app.use(cors(corsOptions));
+
+app.options("/api/nba-article", (request, response) => {
+  response.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5173");
+  response.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  response.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization"
+  );
+  response.sendStatus(204); // No content response for preflight
+});
 
 app.use(express.json());
 
@@ -30,7 +39,7 @@ async function articleToPdf(articleLink) {
   await browser.close();
 }
 
-async function pdfToHtml(response) {
+async function pdfToHtml(response, next) {
   await pdfUtil.pdfToText(pdf_path, async function (err, data) {
     if (err) throw err;
 
@@ -58,14 +67,20 @@ async function pdfToHtml(response) {
         );
         response.setHeader("Content-Type", "text/html");
         response.status(200).send(parsedHtml);
-      });
+      })
+      .catch(next);
   });
 }
 
-app.post("/api/nba-article", async (request, response) => {
+app.post("/api/nba-article", async (request, response, next) => {
   const { articleLink } = request.body;
   await articleToPdf(articleLink);
-  await pdfToHtml(response);
+  await pdfToHtml(response, next);
+});
+
+app.use((error, request, response, next) => {
+  console.error(error.stack);
+  response.status(500).send({ error: "Something went wrong" }); // Sends JSON instead of HTML
 });
 
 module.exports = app;
