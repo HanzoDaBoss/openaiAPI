@@ -13,7 +13,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chromium": "^3.0.3",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "openai": "^4.80.1",
