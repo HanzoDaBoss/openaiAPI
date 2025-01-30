@@ -7,7 +7,13 @@ const openaiClient = require("./openaiClient");
 const pdf_path = "./article.pdf";
 
 const app = express();
-app.use(cors());
+
+let corsOptions = {
+  origin: ["http://127.0.0.1:5173"],
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 async function articleToPdf(articleLink) {
