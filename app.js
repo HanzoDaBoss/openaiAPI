@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const puppeteer = require("puppeteer");
 const pdfUtil = require("pdf-to-text");
 const openaiClient = require("./openaiClient");
@@ -6,6 +7,7 @@ const openaiClient = require("./openaiClient");
 const pdf_path = "./article.pdf";
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 async function articleToPdf(articleLink) {
