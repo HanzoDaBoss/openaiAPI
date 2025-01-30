@@ -10,7 +10,7 @@ const app = express();
 
 let corsOptions = {
   origin: ["http://127.0.0.1:5173"],
-  credentials: true,
+  allowedHeaders: "Content-Type,Authorization",
 };
 app.use(cors(corsOptions));
 
@@ -56,7 +56,7 @@ async function pdfToHtml(response) {
           /```html\n|```/g,
           ""
         );
-        // console.log(parsedHtml);
+        response.setHeader("Content-Type", "text/html");
         response.status(200).send(parsedHtml);
       });
   });
