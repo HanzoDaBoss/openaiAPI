@@ -62,7 +62,7 @@ async function pdfToHtml(response) {
   });
 }
 
-app.get("/api/nba-article", async (request, response) => {
+app.post("/api/nba-article", async (request, response) => {
   const { articleLink } = request.body;
   await articleToPdf(articleLink);
   await pdfToHtml(response);
