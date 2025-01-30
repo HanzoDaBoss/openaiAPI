@@ -49,7 +49,7 @@ async function pdfToHtml(response, next) {
           {
             role: "user",
             content: `Write the following text for a website article: ${data} in the format strictly nothing else: 
-            <h1>*Insert title*</h1>
+            <h1 className="text-3xl font-bold italic mb-10 text-center">*Insert title*</h1>
             <p>*Insert article content*</h1>
             `,
           },
@@ -80,7 +80,7 @@ app.post("/api/nba-article", async (request, response, next) => {
 
 app.use((error, request, response, next) => {
   console.error(error.stack);
-  response.status(500).send({ error: "Something went wrong" }); // Sends JSON instead of HTML
+  response.status(500).send({ error: "Something went wrong" });
 });
 
 module.exports = app;
