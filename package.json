@@ -5,7 +5,9 @@
   "main": "listen.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node listen.js"
+    "start": "node listen.js",
+    "preinstall": "npm install puppeteer-core", 
+    "postinstall": "npx puppeteer browsers install chrome"
   },
   "keywords": [],
   "author": "",
