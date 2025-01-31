@@ -30,7 +30,7 @@ async function articleToPdf(articleLink) {
   const page = await browser.newPage();
   page.setDefaultNavigationTimeout(0);
   await page.goto(articleLink, {
-    waitUntil: "networkidle2",
+    waitUntil: "domcontentloaded",
   });
   // Saves the PDF to hn.pdf.
   await page.pdf({
